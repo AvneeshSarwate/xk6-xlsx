@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/360EntSecGroup-Skylar/excelize/v2"
+	"github.com/loadimpact/k6/js/modules"
 )
 
 func main() {
@@ -29,27 +30,42 @@ func main() {
 	// 	fmt.Println()
 	// }
 
-	sheetVals := getSheetMaps("DEMO_APIServices.xlsx", "services")
+	sheetVals, err := getSheetMaps("DEMO_APIServices.xlsx", "services")
 	// jsonString, err := json.Marshal(sheetVals)
 	// fmt.Println(err)
-	fmt.Println(sheetVals)
+	if err == nil {
+		fmt.Println(sheetVals)
+	} else {
+		fmt.Println(err)
+	}
+
+}
+
+func init() {
+	modules.Register("k6/x/redis", new(SheetReader))
+}
+
+type SheetReader struct{}
+
+func (r *SheetReader) Get(fileName, sheetName string) (map[string]map[string]string, error) {
+	return getSheetMaps(fileName, sheetName)
 }
 
 var fileSheetMap = make(map[string]map[string]map[string]string)
 
-func getSheetMaps(fileName, sheetName string) map[string]map[string]string {
+func getSheetMaps(fileName, sheetName string) (map[string]map[string]string, error) {
 	fileSheetKey := fileName + "-" + sheetName
 	if val, ok := fileSheetMap[fileSheetKey]; ok {
-		return val
+		return val, nil
 	} else {
 		f, err := excelize.OpenFile("DEMO_APIServices.xlsx")
 		if err != nil {
-			fmt.Println(err)
+			return nil, err
 		}
 
 		rows, err := f.GetRows("services")
 		if err != nil {
-			fmt.Println(err)
+			return nil, err
 		}
 
 		sheetValues := make(map[string]map[string]string)
@@ -59,7 +75,7 @@ func getSheetMaps(fileName, sheetName string) map[string]map[string]string {
 		for _, row := range dataRows {
 
 			if strings.TrimSpace(row[0]) != "" {
-				fmt.Println(row)
+				// fmt.Println(row)
 				rowMap := make(map[string]string)
 				for i, colVal := range row[1:] { //iterate over all of the data values in a row (skip service name)
 					rowMap[columnNames[i]] = colVal
@@ -69,7 +85,7 @@ func getSheetMaps(fileName, sheetName string) map[string]map[string]string {
 		}
 
 		fileSheetMap[fileSheetKey] = sheetValues
-		fmt.Println()
-		return sheetValues
+		// fmt.Println()
+		return sheetValues, nil
 	}
 }

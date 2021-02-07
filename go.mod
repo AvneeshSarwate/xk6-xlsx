@@ -1,4 +1,4 @@
-module xk6-xlsx
+module github.com/AvneeshSarwate/xk6-xlsx
 
 go 1.15
 

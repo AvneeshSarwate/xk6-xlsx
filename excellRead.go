@@ -1,48 +1,27 @@
-package main
+package excel
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/360EntSecGroup-Skylar/excelize/v2"
 	"github.com/loadimpact/k6/js/modules"
 )
 
-func main() {
-	// f, err := excelize.OpenFile("DEMO_APIServices.xlsx")
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	return
-	// }
-	// // Get value from cell by given worksheet name and axis.
-	// cell, err := f.GetCellValue("services", "B2")
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	return
-	// }
-	// fmt.Println(cell)
-	// // Get all the rows in the Sheet1.
-	// rows, err := f.GetRows("services")
-	// for _, row := range rows {
-	// 	for _, colCell := range row {
-	// 		fmt.Print(colCell, "\t")
-	// 	}
-	// 	fmt.Println()
-	// }
+// func main() {
 
-	sheetVals, err := getSheetMaps("DEMO_APIServices.xlsx", "services")
-	// jsonString, err := json.Marshal(sheetVals)
-	// fmt.Println(err)
-	if err == nil {
-		fmt.Println(sheetVals)
-	} else {
-		fmt.Println(err)
-	}
+// 	sheetVals, err := getSheetMaps("DEMO_APIServices.xlsx", "services")
+// 	// jsonString, err := json.Marshal(sheetVals)
+// 	// fmt.Println(err)
+// 	if err == nil {
+// 		fmt.Println(sheetVals)
+// 	} else {
+// 		fmt.Println(err)
+// 	}
 
-}
+// }
 
 func init() {
-	modules.Register("k6/x/redis", new(SheetReader))
+	modules.Register("k6/x/excel", new(SheetReader))
 }
 
 type SheetReader struct{}

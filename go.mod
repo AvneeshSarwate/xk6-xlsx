@@ -1,4 +1,4 @@
-module excelReader
+module xk6-xlsx
 
 go 1.15
 

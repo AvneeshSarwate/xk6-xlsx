@@ -5,3 +5,7 @@ Build agains the k6 binary using the command
 ```
 {xk6_binary} build v0.29.0 --with github.com/AvneeshSarwate/xk6-xlsx='/absolute/path/to/local/xk6-xlsx/directory'
 ```
+
+
+Notes
+1. required me to add `export GO111MODULE=on` into my .bash_profile to compile module properly for module-level testing independent of k6.

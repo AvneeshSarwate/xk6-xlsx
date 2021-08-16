@@ -1,4 +1,4 @@
-A module for https://k6.io/ to read excel files. Constructed in the pattern of https://k6.io/blog/extending-k6-with-xk6 and using excel-parsing capabilities of https://github.com/360EntSecGroup-Skylar/excelize.
+An example module for https://k6.io/ to read excel files. Constructed in the pattern of https://k6.io/blog/extending-k6-with-xk6 and using excel-parsing capabilities of https://github.com/360EntSecGroup-Skylar/excelize. NOT POLISHED FOR PRODUCTION USE but meant to be instructive to how to bind the `excelize` library.
 
 Build agains the k6 binary using the command 
 
